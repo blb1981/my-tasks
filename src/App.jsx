@@ -7,7 +7,7 @@ import Modal from './components/Modal'
 import NewTaskForm from './components/NewTaskForm'
 import RemoveTask from './components/RemoveTask'
 import TaskList from './components/TaskList'
-import DarkMode from './components/ThemeSwitcher'
+import ThemeSwitcher from './components/ThemeSwitcher'
 
 function App() {
   const [tasks, setTasks] = useState(function () {
@@ -18,7 +18,9 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false)
   const [addTaskAttempt, setAddTaskAttempt] = useState(false)
   const [deleteAttempt, setDeleteAttempt] = useState(false)
+  const [updateAttempt, setUpdateAttempt] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState({})
+  const [taskToUpdate, setTaskToUpdate] = useState({})
 
   function handleAddTask(text, dueDate) {
     setTasks([
@@ -52,6 +54,21 @@ function App() {
     )
   }
 
+  function handleUpdateAttempt(task) {
+    setUpdateAttempt(true)
+    setModalOpen(true)
+    setTaskToUpdate(task)
+  }
+
+  function handleUpdateTask(name, dueDate) {
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskToUpdate.id ? { ...taskToUpdate, name, dueDate } : task
+      )
+    )
+    handleCloseModal()
+  }
+
   function handleNewTaskModal() {
     setAddTaskAttempt(true)
     setModalOpen(true)
@@ -61,7 +78,9 @@ function App() {
     setModalOpen(false)
     setAddTaskAttempt(false)
     setDeleteAttempt(false)
+    setUpdateAttempt(false)
     setTaskToDelete({})
+    setTaskToUpdate({})
   }
 
   useEffect(
@@ -86,12 +105,13 @@ function App() {
 
   return (
     <div className='container'>
-      <DarkMode />
+      <ThemeSwitcher />
       <TaskList
         tasks={tasks}
         onToggleComplete={handleCompleteTask}
         onDeleteAttempt={handleDeleteAttempt}
         onOpenModal={handleNewTaskModal}
+        onUpdateModal={handleUpdateAttempt}
       />
       {modalOpen && addTaskAttempt && (
         <Modal
@@ -109,6 +129,18 @@ function App() {
               taskToDelete={taskToDelete}
               onDeleteTask={handleDeleteTask}
               onCloseModal={handleCloseModal}
+            />
+          }
+        />
+      )}
+      {modalOpen && updateAttempt && (
+        <Modal
+          title='Update Task'
+          onCloseModal={handleCloseModal}
+          component={
+            <NewTaskForm
+              taskToUpdate={taskToUpdate}
+              onUpdateTask={handleUpdateTask}
             />
           }
         />

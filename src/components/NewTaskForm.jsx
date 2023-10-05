@@ -1,22 +1,26 @@
 // TODO Add update task functionality
 import { useState } from 'react'
 
-const NewTaskForm = ({ onAddTask }) => {
-  const [text, setText] = useState('')
+const NewTaskForm = ({ onAddTask, taskToUpdate, onUpdateTask }) => {
+  const [text, setText] = useState(taskToUpdate ? taskToUpdate.name : '')
   const [errors, setErrors] = useState([])
 
-  // Set default due date to 1 week from day entered
-  let defaultDueDate = new Date()
-  defaultDueDate.setDate(new Date().getDate() + 7)
+  // If taskToUpdate is sent in, convert it to string for HTML form
+  // Also convert times to ISO format for HTML form
+  let defaultDueDate
+  if (taskToUpdate) {
+    defaultDueDate = new Date(taskToUpdate.dueDate).toISOString().slice(0, 10)
+  } else {
+    // Set default due date to 1 week from day entered
+    defaultDueDate = new Date()
+    defaultDueDate.setDate(defaultDueDate.getDate() + 7)
+    defaultDueDate = defaultDueDate.toISOString().slice(0, 10)
+  }
+
   const [dueDate, setDueDate] = useState(defaultDueDate)
-  // TODO Make due date time be 23:59 of the date, 7 days from now
 
   function handleDueDate(e) {
-    // Set to last second of the selected day
-    // This allows for "today" to be the due date
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format
-    const dateTimeString = `${e.target.value}T23:59`
-    const dueAt = new Date(dateTimeString)
+    const dueAt = new Date(e.target.value).toISOString().slice(0, 10)
     setDueDate(dueAt)
   }
 
@@ -29,14 +33,13 @@ const NewTaskForm = ({ onAddTask }) => {
       return
     }
 
-    // If due date is in the past, add error
-    const today = new Date()
-    if (today.getTime() > dueDate.getTime()) {
-      setErrors(['Your due date is in the past.'])
-      return
+    // TODO: Make sure all due dates are ending at the last second of the day selected
+    // TODO Make due date time be 23:59 of the date, 7 days from now
+    if (taskToUpdate) {
+      onUpdateTask(text, dueDate)
+    } else {
+      onAddTask(text, dueDate)
     }
-
-    onAddTask(text, dueDate)
     setText('')
   }
 
@@ -57,16 +60,24 @@ const NewTaskForm = ({ onAddTask }) => {
         </div>
         <div className='form-group'>
           <label htmlFor='dueDate'>Due date</label>
-          <input type='date' onChange={handleDueDate} id='dueDate' />
+          <input
+            type='date'
+            onChange={handleDueDate}
+            id='dueDate'
+            value={dueDate}
+          />
         </div>
         <p>
           <small>
-            Due date will default to 1 week from now if not selected.
+            {!taskToUpdate &&
+              'Due date will default to 1 week from now if not selected.'}
           </small>
         </p>
         {errors.length > 0 && <p className='errors'>{errors}</p>}
         <div>
-          <button className='btn btn-blue'>Add Task</button>
+          <button className='btn btn-blue'>
+            {taskToUpdate ? 'Update Task' : 'Add Task'}
+          </button>
         </div>
       </form>
     </>

@@ -70,6 +70,11 @@ h4 {
   color: #fff;
 }
 
+.btn-green {
+  background-color: var(--clr-green);
+  color: #fff;
+}
+
 .btn-inline-group {
   display: flex;
 }

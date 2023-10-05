@@ -4,7 +4,13 @@ import Task from './Task'
 import { useEffect, useState } from 'react'
 import { Filters } from './Filters'
 
-function TaskList({ tasks, onToggleComplete, onDeleteAttempt, onOpenModal }) {
+function TaskList({
+  tasks,
+  onToggleComplete,
+  onDeleteAttempt,
+  onOpenModal,
+  onUpdateModal,
+}) {
   const [filteredTasks, setFilteredTasks] = useState(tasks)
   const [showCompleted, setShowCompleted] = useState(false)
   const [textFilter, setTextFilter] = useState('')
@@ -111,6 +117,7 @@ function TaskList({ tasks, onToggleComplete, onDeleteAttempt, onOpenModal }) {
                   task={task}
                   onToggleComplete={onToggleComplete}
                   onDeleteAttempt={onDeleteAttempt}
+                  onUpdateModal={onUpdateModal}
                 />
               ))}
             </tbody>
