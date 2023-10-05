@@ -41,7 +41,7 @@ function ThemeSwitcher() {
         type='checkbox'
         id='themeToggleSwitch'
         onClick={(e) => switchTheme(e)}
-        checked={theme === darkTheme}
+        defaultChecked={theme === darkTheme}
       />
       <label htmlFor='themeToggleSwitch'>
         <span className='sun'>

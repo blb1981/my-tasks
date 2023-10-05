@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react'
 import { HiMiniArrowsUpDown } from 'react-icons/hi2'
 
+import Filters from './Filters'
 import Task from './Task'
-import { useEffect, useState } from 'react'
-import { Filters } from './Filters'
 
 function TaskList({
   tasks,
