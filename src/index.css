@@ -297,6 +297,10 @@ body.dark .table tbody tr:hover {
   padding-right: 0.25rem;
 }
 
+.theme-toggle {
+  text-align: right;
+}
+
 .theme-toggle label {
   display: inline-block;
   width: 70px;

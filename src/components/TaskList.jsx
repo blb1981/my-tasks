@@ -12,10 +12,10 @@ function TaskList({
   onUpdateModal,
 }) {
   const [filteredTasks, setFilteredTasks] = useState(tasks)
-  const [showCompleted, setShowCompleted] = useState(false)
+  const [showCompleted, setShowCompleted] = useState(true)
   const [textFilter, setTextFilter] = useState('')
   const [order, setOrder] = useState('asc')
-  const [sortCol, setSortCol] = useState('name')
+  // const [sortCol, setSortCol] = useState('name')
 
   function handleShowCompleteToggle() {
     setShowCompleted(!showCompleted)

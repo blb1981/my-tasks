@@ -1,5 +1,5 @@
-import { BsSun, BsMoonFill, BsFillMoonStarsFill } from 'react-icons/bs'
-import { BiMoon } from 'react-icons/bi'
+import { useState } from 'react'
+import { BsSun, BsFillMoonStarsFill } from 'react-icons/bs'
 
 // TODO: Theme is out of sync with the toggle switch...fix
 
@@ -9,10 +9,12 @@ function ThemeSwitcher() {
   const body = document.body
   const lightTheme = 'light'
   const darkTheme = 'dark'
-  let theme
+  const [theme, setTheme] = useState(
+    localStorage.getItem('theme') ?? lightTheme
+  )
 
-  if (localStorage) {
-    theme = localStorage.getItem('theme')
+  if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', theme)
   }
 
   if (theme === lightTheme || theme === darkTheme) {
@@ -25,31 +27,21 @@ function ThemeSwitcher() {
     if (theme === darkTheme) {
       body.classList.replace(darkTheme, lightTheme)
       localStorage.setItem('theme', 'light')
-      theme = lightTheme
+      setTheme(lightTheme)
     } else {
       body.classList.replace(lightTheme, darkTheme)
       localStorage.setItem('theme', 'dark')
-      theme = darkTheme
+      setTheme(darkTheme)
     }
   }
 
   return (
-    <div
-      style={{ marginLeft: 'auto', textAlign: 'right' }}
-      className='theme-toggle'
-    >
-      {/* <button
-        className={theme === 'dark' ? clickedClass : ''}
-        id='themeSwitcher'
-        onClick={(e) => switchTheme(e)}
-      >
-        Dark Mode
-      </button> */}
-
+    <div className='theme-toggle'>
       <input
         type='checkbox'
         id='themeToggleSwitch'
         onClick={(e) => switchTheme(e)}
+        checked={theme === darkTheme}
       />
       <label htmlFor='themeToggleSwitch'>
         <span className='sun'>
