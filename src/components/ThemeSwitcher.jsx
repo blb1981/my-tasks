@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { BsSun, BsFillMoonStarsFill } from 'react-icons/bs'
 
-// TODO: Theme is out of sync with the toggle switch...fix
-
 // Dark mode help from the folling URL
 // https://www.youtube.com/watch?v=IiUg-2dAd4A&ab_channel=AleksPopovic
 function ThemeSwitcher() {

@@ -1,4 +1,3 @@
-// TODO Add update task functionality
 import { useState } from 'react'
 
 const NewTaskForm = ({ onAddTask, taskToUpdate, onUpdateTask }) => {
